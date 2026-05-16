@@ -77,6 +77,27 @@ section{position:relative;z-index:1;padding:100px 60px;}
 .tl-bullets li::before{content:'';position:absolute;left:0;top:13px;width:5px;height:5px;border-radius:50%;background:var(--cyan);opacity:.6;}
 .tl-bullets li strong{color:var(--white);font-weight:500;}
 
+.gallery-wrap{padding:32px 48px 0;}
+.gallery-eyebrow{font-size:11px;letter-spacing:2px;text-transform:uppercase;color:var(--cyan);margin-bottom:6px;font-weight:500;}
+.gallery-subtitle{font-family:'Syne',sans-serif;font-size:16px;font-weight:700;color:var(--white);margin-bottom:20px;}
+.gallery-main{position:relative;border-radius:12px;overflow:hidden;border:1px solid rgba(0,212,255,.2);cursor:zoom-in;}
+.gallery-main img{width:100%;display:block;transition:transform .4s ease;}
+.gallery-main:hover img{transform:scale(1.01);}
+.gallery-main-label{position:absolute;bottom:14px;left:14px;background:rgba(7,21,43,.85);border:1px solid rgba(0,212,255,.25);border-radius:8px;padding:6px 14px;font-size:12px;font-weight:600;color:var(--cyan);backdrop-filter:blur(8px);}
+.gallery-thumbs{display:grid;grid-template-columns:repeat(6,1fr);gap:10px;margin-top:12px;}
+.gallery-thumb{border-radius:8px;overflow:hidden;border:1px solid rgba(238,243,255,.06);cursor:pointer;position:relative;transition:border-color .2s,transform .2s;}
+.gallery-thumb:hover{border-color:rgba(0,212,255,.3);transform:translateY(-2px);}
+.gallery-thumb.active{border-color:var(--cyan);box-shadow:0 0 12px rgba(0,212,255,.2);}
+.gallery-thumb img{width:100%;display:block;filter:brightness(.8);transition:filter .2s;}
+.gallery-thumb:hover img,.gallery-thumb.active img{filter:brightness(1);}
+.gallery-thumb-label{position:absolute;bottom:0;left:0;right:0;background:linear-gradient(transparent,rgba(7,21,43,.9));padding:14px 6px 5px;font-size:10px;font-weight:600;color:var(--white-dim);text-align:center;}
+.gallery-notice{margin:14px 0 0;display:flex;align-items:center;gap:10px;padding:10px 16px;background:rgba(255,209,102,.05);border:1px solid rgba(255,209,102,.15);border-radius:8px;}
+.gallery-notice p{font-size:12px;color:rgba(255,209,102,.7);line-height:1.5;}
+.lightbox{display:none;position:fixed;inset:0;background:rgba(7,21,43,.96);z-index:999;align-items:center;justify-content:center;padding:24px;backdrop-filter:blur(10px);}
+.lightbox.open{display:flex;}
+.lightbox img{max-width:95vw;max-height:90vh;border-radius:12px;border:1px solid rgba(0,212,255,.2);box-shadow:0 0 80px rgba(0,212,255,.15);}
+.lightbox-close{position:fixed;top:20px;right:20px;background:rgba(238,243,255,.06);border:1px solid rgba(0,212,255,.2);color:var(--white);border-radius:50%;width:40px;height:40px;display:flex;align-items:center;justify-content:center;cursor:pointer;font-size:18px;transition:background .2s;}
+.lightbox-close:hover{background:rgba(0,212,255,.12);}
 .proj-card{background:var(--white-faint);border:1px solid rgba(0,212,255,.12);border-radius:20px;overflow:hidden;}
 .proj-head{background:linear-gradient(135deg,rgba(27,92,219,.25),rgba(0,212,255,.07));padding:40px 48px;border-bottom:1px solid rgba(0,212,255,.09);display:flex;justify-content:space-between;align-items:flex-start;flex-wrap:wrap;gap:20px;}
 .proj-head h3{font-family:'Syne',sans-serif;font-weight:700;font-size:25px;letter-spacing:-.5px;margin-bottom:8px;}
@@ -196,7 +217,7 @@ footer{position:relative;z-index:1;text-align:center;padding:24px;border-top:1px
     <div class="hero-tag">Disponível para novas oportunidades</div>
     <h1>Daniele<br><span class="grad">Pinheiro</span></h1>
     <p class="hero-sub">Governança de Segurança da Informação · GRC · Indicadores Estratégicos</p>
-    <p class="hero-quote">"O que me move é chegar com dados reais, dar feedbacks concretos e garantir que nenhum SLA quebre. Mitigar risco antes que ele vire problema. É isso que eu faço."</p>
+    <p class="hero-quote">"O que me move é chegar com dados reais, dar feedbacks concretos e garantir que nenhum SLA quebre. Mitigar risco antes que ele vire problema — é isso que eu faço."</p>
     <div class="hero-ctas">
       <a href="#contato" class="btn-primary">Entre em contato →</a>
       <a href="#projeto" class="btn-outline">Ver projetos</a>
@@ -308,6 +329,39 @@ footer{position:relative;z-index:1;text-align:center;padding:24px;border-top:1px
         <p>Plataforma web de monitoramento de KPIs integrada ao sistema de chamados de uma operação de segurança gerenciada com mais de 20 clientes e mais de 1.000 tickets semanais. Utilizada toda semana nas apresentações à diretoria.</p>
       </div>
       <div class="badge-green">Em produção</div>
+    </div>
+
+    <div class="gallery-wrap">
+      <div class="gallery-eyebrow">Capturas de tela</div>
+      <div class="gallery-subtitle">Principais telas do sistema</div>
+      <div class="gallery-main" onclick="openLightbox(currentIdx)">
+        <img id="mainImg" src="screen1.png" alt="Visão geral do dashboard">
+        <div class="gallery-main-label" id="mainLabel">Visão Geral — KPIs e alertas críticos</div>
+      </div>
+      <div class="gallery-thumbs">
+        <div class="gallery-thumb active" onclick="setMain(0,this)">
+          <img src="screen1.png" alt="Visão geral"><div class="gallery-thumb-label">Visão Geral</div>
+        </div>
+        <div class="gallery-thumb" onclick="setMain(1,this)">
+          <img src="screen2.png" alt="Ranking"><div class="gallery-thumb-label">Ranking Grupos</div>
+        </div>
+        <div class="gallery-thumb" onclick="setMain(2,this)">
+          <img src="screen3.png" alt="Score por grupo"><div class="gallery-thumb-label">Score por Grupo</div>
+        </div>
+        <div class="gallery-thumb" onclick="setMain(3,this)">
+          <img src="screen4.png" alt="Qualidade"><div class="gallery-thumb-label">Índice de Qualidade</div>
+        </div>
+        <div class="gallery-thumb" onclick="setMain(4,this)">
+          <img src="screen5.png" alt="Evolução semanal"><div class="gallery-thumb-label">Evolução Semanal</div>
+        </div>
+        <div class="gallery-thumb" onclick="setMain(5,this)">
+          <img src="screen6.png" alt="Por cliente"><div class="gallery-thumb-label">SLA por Cliente</div>
+        </div>
+      </div>
+      <div class="gallery-notice">
+        <span>🔒</span>
+        <p>Dados exibidos são fictícios e anonimizados para fins de demonstração.</p>
+      </div>
     </div>
 
         <div class="proj-body">
@@ -443,7 +497,35 @@ footer{position:relative;z-index:1;text-align:center;padding:24px;border-top:1px
 
 <footer>© 2026 Daniele Pinheiro de Freitas · Governança de Segurança da Informação</footer>
 
+<div class="lightbox" id="lightbox" onclick="closeLightbox()">
+  <button class="lightbox-close" onclick="closeLightbox()">✕</button>
+  <img id="lightboxImg" src="" alt="">
+</div>
+
 <script>
+const screens=[
+  {src:'screen1.png',label:'Visão Geral — KPIs e alertas críticos'},
+  {src:'screen2.png',label:'Ranking de Grupos e Analistas'},
+  {src:'screen3.png',label:'Score de Saúde por Grupo'},
+  {src:'screen4.png',label:'Índice de Qualidade por Critério'},
+  {src:'screen5.png',label:'Evolução Semanal de Indicadores'},
+  {src:'screen6.png',label:'SLA por Cliente Externo'},
+];
+let currentIdx=0;
+function setMain(i,el){
+  currentIdx=i;
+  document.getElementById('mainImg').src=screens[i].src;
+  document.getElementById('mainLabel').textContent=screens[i].label;
+  document.querySelectorAll('.gallery-thumb').forEach(t=>t.classList.remove('active'));
+  el.classList.add('active');
+}
+function openLightbox(i){
+  document.getElementById('lightboxImg').src=screens[i].src;
+  document.getElementById('lightbox').classList.add('open');
+}
+function closeLightbox(){document.getElementById('lightbox').classList.remove('open');}
+document.addEventListener('keydown',e=>{if(e.key==='Escape')closeLightbox();});
+</script>
 const obs=new IntersectionObserver(e=>{
   e.forEach(el=>{if(el.isIntersecting)el.target.classList.add('on');});
 },{threshold:0.1});
