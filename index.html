@@ -4,195 +4,831 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Daniele Pinheiro — Governança de SI & GRC</title>
-<link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;600;700;800&family=DM+Sans:opsz,wght@9..40,300;9..40,400;9..40,500&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&family=DM+Sans:opsz,wght@9..40,300;9..40,400;9..40,500;9..40,600&family=Syne:wght@700;800&display=swap" rel="stylesheet">
 <style>
-:root{
-  --navy:#07152B;--navy-mid:#0D2040;
-  --blue:#1A5CDB;--blue-light:#3B7FFF;
-  --cyan:#00D4FF;--cyan-dim:rgba(0,212,255,0.10);
-  --white:#EEF3FF;--white-dim:rgba(238,243,255,0.55);
-  --white-faint:rgba(238,243,255,0.06);
-  --green:#00E5A0;
+:root {
+  --ink: #0a0f1e;
+  --ink-mid: #141929;
+  --ink-soft: #1e2640;
+  --cyan: #00d4ff;
+  --cyan-glow: rgba(0,212,255,0.15);
+  --cyan-faint: rgba(0,212,255,0.07);
+  --cyan-border: rgba(0,212,255,0.18);
+  --blue: #1a5cdb;
+  --blue-light: #3b7fff;
+  --green: #00e5a0;
+  --white: #f0f4ff;
+  --white-dim: rgba(240,244,255,0.55);
+  --white-faint: rgba(240,244,255,0.06);
+  --white-ghost: rgba(240,244,255,0.03);
+  --serif: 'Instrument Serif', Georgia, serif;
+  --sans: 'DM Sans', sans-serif;
+  --display: 'Syne', sans-serif;
 }
-*,*::before,*::after{box-sizing:border-box;margin:0;padding:0;}
-html{scroll-behavior:smooth;}
-body{background:var(--navy);color:var(--white);font-family:'DM Sans',sans-serif;font-weight:300;line-height:1.75;overflow-x:hidden;}
-body::before{content:'';position:fixed;inset:0;background-image:linear-gradient(rgba(0,212,255,0.025)1px,transparent 1px),linear-gradient(90deg,rgba(0,212,255,0.025)1px,transparent 1px);background-size:64px 64px;pointer-events:none;z-index:0;}
 
-nav{position:fixed;top:0;left:0;right:0;z-index:100;display:flex;justify-content:space-between;align-items:center;padding:18px 60px;background:rgba(7,21,43,0.90);backdrop-filter:blur(20px);border-bottom:1px solid rgba(0,212,255,0.07);}
-.nav-logo{font-family:'Syne',sans-serif;font-weight:800;font-size:19px;color:var(--cyan);letter-spacing:-1px;}
-.nav-links{display:flex;gap:36px;list-style:none;}
-.nav-links a{color:var(--white-dim);text-decoration:none;font-size:12px;letter-spacing:1.5px;text-transform:uppercase;transition:color .25s;}
-.nav-links a:hover{color:var(--cyan);}
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+html { scroll-behavior: smooth; }
 
-.hero{position:relative;min-height:100vh;display:flex;align-items:center;padding:140px 60px 80px;z-index:1;overflow:hidden;}
-.glow{position:absolute;border-radius:50%;pointer-events:none;background:radial-gradient(circle,rgba(27,92,219,0.22)0%,transparent 70%);width:800px;height:800px;top:-150px;right:-150px;}
-.glow2{position:absolute;border-radius:50%;pointer-events:none;background:radial-gradient(circle,rgba(0,212,255,0.08)0%,transparent 70%);width:500px;height:500px;bottom:60px;left:100px;}
-.hero-content{max-width:760px;z-index:2;}
-.hero-tag{display:inline-flex;align-items:center;gap:10px;background:var(--cyan-dim);border:1px solid rgba(0,212,255,0.25);border-radius:100px;padding:7px 18px;font-size:11px;letter-spacing:2px;text-transform:uppercase;color:var(--cyan);margin-bottom:36px;animation:fadeUp .8s ease both;}
-.hero-tag::before{content:'';width:7px;height:7px;border-radius:50%;background:var(--cyan);animation:blink 2s ease infinite;}
-@keyframes blink{0%,100%{opacity:1;transform:scale(1);}50%{opacity:.3;transform:scale(.7);}}
-.hero h1{font-family:'Syne',sans-serif;font-weight:800;font-size:clamp(52px,7vw,88px);line-height:1.02;letter-spacing:-3px;margin-bottom:28px;animation:fadeUp .8s .1s ease both;}
-.hero h1 .grad{background:linear-gradient(135deg,var(--cyan)0%,var(--blue-light)60%);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;}
-.hero-sub{font-size:17px;color:var(--white-dim);max-width:600px;margin-bottom:20px;line-height:1.85;animation:fadeUp .8s .2s ease both;}
-.hero-quote{font-size:15px;color:rgba(0,212,255,0.7);font-style:italic;max-width:580px;margin-bottom:44px;line-height:1.7;border-left:2px solid rgba(0,212,255,0.3);padding-left:16px;animation:fadeUp .8s .25s ease both;}
-.hero-ctas{display:flex;gap:14px;flex-wrap:wrap;animation:fadeUp .8s .3s ease both;}
-.btn-primary{display:inline-flex;align-items:center;gap:10px;background:linear-gradient(135deg,var(--blue),var(--blue-light));color:#fff;text-decoration:none;padding:14px 34px;border-radius:10px;font-size:14px;font-weight:500;box-shadow:0 4px 28px rgba(27,92,219,.4);transition:transform .2s,box-shadow .2s;}
-.btn-primary:hover{transform:translateY(-2px);box-shadow:0 8px 36px rgba(27,92,219,.6);}
-.btn-outline{display:inline-flex;align-items:center;gap:10px;border:1px solid rgba(0,212,255,.3);color:var(--cyan);text-decoration:none;padding:14px 34px;border-radius:10px;font-size:14px;font-weight:500;transition:all .2s;}
-.btn-outline:hover{background:var(--cyan-dim);border-color:var(--cyan);}
+body {
+  background: var(--ink);
+  color: var(--white);
+  font-family: var(--sans);
+  font-weight: 300;
+  line-height: 1.75;
+  overflow-x: hidden;
+}
 
-.strip{position:relative;z-index:1;display:grid;grid-template-columns:repeat(5,1fr);gap:1px;background:rgba(0,212,255,0.07);border-top:1px solid rgba(0,212,255,0.07);border-bottom:1px solid rgba(0,212,255,0.07);}
-.strip-item{background:rgba(7,21,43,.97);padding:36px 28px;text-align:center;transition:background .3s;}
-.strip-item:hover{background:rgba(27,92,219,.10);}
-.strip-num{font-family:'Syne',sans-serif;font-size:44px;font-weight:800;color:var(--cyan);line-height:1;margin-bottom:8px;}
-.strip-label{font-size:11px;letter-spacing:1.3px;text-transform:uppercase;color:var(--white-dim);line-height:1.5;}
+/* GRAIN TEXTURE */
+body::after {
+  content: '';
+  position: fixed;
+  inset: 0;
+  background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)' opacity='0.04'/%3E%3C/svg%3E");
+  pointer-events: none;
+  z-index: 9999;
+  opacity: 0.4;
+}
 
-section{position:relative;z-index:1;padding:100px 60px;}
-.stag{font-size:11px;letter-spacing:3px;text-transform:uppercase;color:var(--cyan);margin-bottom:14px;font-weight:500;}
-.stitle{font-family:'Syne',sans-serif;font-weight:700;font-size:clamp(28px,4vw,48px);letter-spacing:-1.5px;margin-bottom:14px;line-height:1.08;}
-.ssub{color:var(--white-dim);font-size:16px;max-width:600px;margin-bottom:56px;line-height:1.8;}
+/* NAV */
+nav {
+  position: fixed; top: 0; left: 0; right: 0; z-index: 100;
+  display: flex; justify-content: space-between; align-items: center;
+  padding: 20px 64px;
+  background: rgba(10,15,30,0.85);
+  backdrop-filter: blur(24px);
+  border-bottom: 1px solid rgba(0,212,255,0.06);
+}
+.nav-logo {
+  font-family: var(--display);
+  font-size: 18px;
+  font-weight: 800;
+  color: var(--cyan);
+  letter-spacing: -0.5px;
+}
+.nav-links { display: flex; gap: 40px; list-style: none; }
+.nav-links a {
+  color: var(--white-dim);
+  text-decoration: none;
+  font-size: 11px;
+  letter-spacing: 2px;
+  text-transform: uppercase;
+  transition: color .2s;
+}
+.nav-links a:hover { color: var(--white); }
 
-.sobre-grid{display:grid;grid-template-columns:1.2fr 1fr;gap:64px;align-items:start;}
-.sobre-text p{color:var(--white-dim);font-size:15.5px;line-height:1.9;margin-bottom:18px;}
-.sobre-text strong{color:var(--white);font-weight:500;}
-.info-stack{display:flex;flex-direction:column;gap:12px;}
-.info-card{background:var(--white-faint);border:1px solid rgba(0,212,255,0.08);border-radius:12px;padding:18px 22px;display:flex;align-items:center;gap:16px;transition:all .3s;}
-.info-card:hover{border-color:rgba(0,212,255,.22);background:rgba(0,212,255,.04);}
-.info-icon{width:36px;height:36px;border-radius:8px;background:var(--cyan-dim);display:flex;align-items:center;justify-content:center;font-size:15px;flex-shrink:0;}
-.info-lbl{font-size:10px;text-transform:uppercase;letter-spacing:1px;color:var(--cyan);margin-bottom:2px;}
-.info-val{font-size:13.5px;color:var(--white);}
+/* HERO */
+.hero {
+  position: relative;
+  min-height: 100vh;
+  display: flex;
+  align-items: center;
+  padding: 160px 64px 100px;
+  overflow: hidden;
+}
 
-.traj-section{background:rgba(13,32,64,.4);}
-.timeline{position:relative;padding-left:32px;}
-.timeline::before{content:'';position:absolute;left:0;top:8px;bottom:8px;width:2px;background:linear-gradient(180deg,var(--cyan),var(--blue),transparent);}
-.tl-item{position:relative;margin-bottom:40px;background:var(--white-faint);border:1px solid rgba(0,212,255,.07);border-radius:14px;padding:28px 32px;transition:all .3s;}
-.tl-item:hover{border-color:rgba(0,212,255,.18);background:rgba(0,212,255,.04);}
-.tl-item::before{content:'';position:absolute;left:-40px;top:28px;width:13px;height:13px;border-radius:50%;background:var(--cyan);border:3px solid var(--navy);box-shadow:0 0 10px rgba(0,212,255,.5);}
-.tl-period{font-size:11px;letter-spacing:1.5px;text-transform:uppercase;color:var(--cyan);margin-bottom:6px;}
-.tl-role{font-family:'Syne',sans-serif;font-weight:700;font-size:17px;margin-bottom:4px;}
-.tl-company{font-size:13px;color:var(--white-dim);margin-bottom:16px;}
-.tl-bullets{list-style:none;}
-.tl-bullets li{font-size:14px;color:var(--white-dim);padding:4px 0 4px 18px;position:relative;line-height:1.65;}
-.tl-bullets li::before{content:'';position:absolute;left:0;top:13px;width:5px;height:5px;border-radius:50%;background:var(--cyan);opacity:.6;}
-.tl-bullets li strong{color:var(--white);font-weight:500;}
+.hero-bg {
+  position: absolute; inset: 0;
+  background:
+    radial-gradient(ellipse 80% 60% at 70% 20%, rgba(27,92,219,0.18) 0%, transparent 60%),
+    radial-gradient(ellipse 50% 40% at 20% 80%, rgba(0,212,255,0.08) 0%, transparent 60%),
+    var(--ink);
+}
 
-.gallery-wrap{padding:32px 48px 24px;}
-.gallery-eyebrow{font-size:11px;letter-spacing:2px;text-transform:uppercase;color:var(--cyan);margin-bottom:6px;font-weight:500;}
-.gallery-subtitle{font-family:'Syne',sans-serif;font-size:16px;font-weight:700;color:var(--white);margin-bottom:20px;}
-.gallery-main{position:relative;border-radius:12px;overflow:hidden;border:1px solid rgba(0,212,255,.2);cursor:zoom-in;height:420px;}
-.gallery-main img{width:100%;height:100%;object-fit:cover;object-position:left top;display:block;transition:transform .4s ease;}
-.gallery-main:hover img{transform:scale(1.02);}
-.gallery-main-label{position:absolute;bottom:14px;left:14px;background:rgba(7,21,43,.85);border:1px solid rgba(0,212,255,.25);border-radius:8px;padding:6px 14px;font-size:12px;font-weight:600;color:var(--cyan);backdrop-filter:blur(8px);}
-.gallery-thumbs{display:grid;grid-template-columns:repeat(6,1fr);gap:10px;margin-top:12px;}
-.gallery-thumb{border-radius:8px;overflow:hidden;border:1px solid rgba(238,243,255,.06);cursor:pointer;position:relative;transition:border-color .2s,transform .2s;height:80px;}
-.gallery-thumb:hover{border-color:rgba(0,212,255,.3);transform:translateY(-2px);}
-.gallery-thumb.active{border-color:var(--cyan);box-shadow:0 0 12px rgba(0,212,255,.2);}
-.gallery-thumb img{width:100%;height:100%;object-fit:cover;object-position:left top;display:block;filter:brightness(.8);transition:filter .2s;}
-.gallery-thumb:hover img,.gallery-thumb.active img{filter:brightness(1);}
-.gallery-thumb-label{position:absolute;bottom:0;left:0;right:0;background:linear-gradient(transparent,rgba(7,21,43,.9));padding:14px 6px 5px;font-size:10px;font-weight:600;color:var(--white-dim);text-align:center;}
-.gallery-notice{margin:14px 0 0;display:flex;align-items:center;gap:10px;padding:10px 16px;background:rgba(255,209,102,.05);border:1px solid rgba(255,209,102,.15);border-radius:8px;}
-.gallery-notice p{font-size:12px;color:rgba(255,209,102,.7);line-height:1.5;}
-.lightbox{display:none;position:fixed;inset:0;background:rgba(7,21,43,.96);z-index:999;align-items:center;justify-content:center;padding:24px;backdrop-filter:blur(10px);}
-.lightbox.open{display:flex;}
-.lightbox img{max-width:95vw;max-height:90vh;border-radius:12px;border:1px solid rgba(0,212,255,.2);box-shadow:0 0 80px rgba(0,212,255,.15);}
-.lightbox-close{position:fixed;top:20px;right:20px;background:rgba(238,243,255,.06);border:1px solid rgba(0,212,255,.2);color:var(--white);border-radius:50%;width:40px;height:40px;display:flex;align-items:center;justify-content:center;cursor:pointer;font-size:18px;transition:background .2s;}
-.lightbox-close:hover{background:rgba(0,212,255,.12);}
-.proj-card{background:var(--white-faint);border:1px solid rgba(0,212,255,.12);border-radius:20px;overflow:hidden;}
-.proj-head{background:linear-gradient(135deg,rgba(27,92,219,.25),rgba(0,212,255,.07));padding:40px 48px;border-bottom:1px solid rgba(0,212,255,.09);display:flex;justify-content:space-between;align-items:flex-start;flex-wrap:wrap;gap:20px;}
-.proj-head h3{font-family:'Syne',sans-serif;font-weight:700;font-size:25px;letter-spacing:-.5px;margin-bottom:8px;}
-.proj-head p{color:var(--white-dim);font-size:14px;max-width:520px;line-height:1.7;}
-.badge-green{background:rgba(0,229,160,.10);border:1px solid rgba(0,229,160,.3);color:var(--green);padding:8px 20px;border-radius:100px;font-size:11px;letter-spacing:1px;text-transform:uppercase;white-space:nowrap;align-self:flex-start;}
+.hero-line {
+  position: absolute;
+  left: 64px; top: 0; bottom: 0;
+  width: 1px;
+  background: linear-gradient(180deg, transparent, var(--cyan-border) 30%, var(--cyan-border) 70%, transparent);
+  opacity: 0.4;
+}
 
+.hero-content { position: relative; z-index: 2; max-width: 900px; }
 
+.hero-eyebrow {
+  display: inline-flex;
+  align-items: center;
+  gap: 12px;
+  margin-bottom: 40px;
+  opacity: 0;
+  animation: fadeUp 0.8s 0.1s ease forwards;
+}
+.hero-eyebrow-dot {
+  width: 8px; height: 8px;
+  border-radius: 50%;
+  background: var(--cyan);
+  box-shadow: 0 0 12px var(--cyan);
+  animation: pulse 2s ease infinite;
+}
+@keyframes pulse {
+  0%, 100% { opacity: 1; transform: scale(1); }
+  50% { opacity: 0.4; transform: scale(0.7); }
+}
+.hero-eyebrow span {
+  font-size: 11px;
+  letter-spacing: 2.5px;
+  text-transform: uppercase;
+  color: var(--cyan);
+  font-weight: 500;
+}
 
+.hero-name {
+  font-family: var(--serif);
+  font-size: clamp(64px, 9vw, 120px);
+  line-height: 0.92;
+  letter-spacing: -2px;
+  margin-bottom: 32px;
+  opacity: 0;
+  animation: fadeUp 0.9s 0.2s ease forwards;
+}
+.hero-name em {
+  font-style: italic;
+  background: linear-gradient(135deg, var(--cyan), var(--blue-light));
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
 
+.hero-role {
+  font-size: 16px;
+  color: var(--white-dim);
+  letter-spacing: 0.5px;
+  margin-bottom: 28px;
+  opacity: 0;
+  animation: fadeUp 0.9s 0.3s ease forwards;
+}
 
+.hero-quote {
+  font-family: var(--serif);
+  font-style: italic;
+  font-size: 20px;
+  color: rgba(0,212,255,0.65);
+  max-width: 640px;
+  line-height: 1.65;
+  margin-bottom: 52px;
+  padding-left: 20px;
+  border-left: 2px solid rgba(0,212,255,0.25);
+  opacity: 0;
+  animation: fadeUp 0.9s 0.4s ease forwards;
+}
 
+.hero-ctas {
+  display: flex;
+  gap: 16px;
+  flex-wrap: wrap;
+  opacity: 0;
+  animation: fadeUp 0.9s 0.5s ease forwards;
+}
 
+.btn-primary {
+  display: inline-flex; align-items: center; gap: 10px;
+  background: var(--cyan);
+  color: var(--ink);
+  text-decoration: none;
+  padding: 14px 32px;
+  border-radius: 4px;
+  font-size: 13px;
+  font-weight: 600;
+  letter-spacing: 0.5px;
+  transition: all 0.2s;
+  box-shadow: 0 0 32px rgba(0,212,255,0.25);
+}
+.btn-primary:hover { background: #20e0ff; box-shadow: 0 0 48px rgba(0,212,255,0.4); transform: translateY(-1px); }
 
+.btn-ghost {
+  display: inline-flex; align-items: center; gap: 10px;
+  border: 1px solid var(--cyan-border);
+  color: var(--white-dim);
+  text-decoration: none;
+  padding: 14px 32px;
+  border-radius: 4px;
+  font-size: 13px;
+  font-weight: 400;
+  transition: all 0.2s;
+}
+.btn-ghost:hover { border-color: var(--cyan); color: var(--white); }
 
+/* NUMBERS STRIP */
+.strip {
+  position: relative; z-index: 1;
+  display: grid;
+  grid-template-columns: repeat(5, 1fr);
+  border-top: 1px solid var(--cyan-border);
+  border-bottom: 1px solid var(--cyan-border);
+}
+.strip-item {
+  padding: 40px 32px;
+  text-align: center;
+  border-right: 1px solid rgba(0,212,255,0.07);
+  transition: background 0.3s;
+  cursor: default;
+}
+.strip-item:last-child { border-right: none; }
+.strip-item:hover { background: var(--cyan-faint); }
+.strip-num {
+  font-family: var(--display);
+  font-size: 48px;
+  font-weight: 800;
+  color: var(--cyan);
+  line-height: 1;
+  margin-bottom: 10px;
+  letter-spacing: -2px;
+}
+.strip-label {
+  font-size: 10px;
+  letter-spacing: 1.5px;
+  text-transform: uppercase;
+  color: var(--white-dim);
+  line-height: 1.6;
+}
 
+/* SECTIONS */
+section { position: relative; z-index: 1; padding: 120px 64px; }
 
+.section-tag {
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  font-size: 10px;
+  letter-spacing: 3px;
+  text-transform: uppercase;
+  color: var(--cyan);
+  font-weight: 600;
+  margin-bottom: 20px;
+}
+.section-tag::before {
+  content: '';
+  width: 24px; height: 1px;
+  background: var(--cyan);
+}
 
+.section-title {
+  font-family: var(--serif);
+  font-size: clamp(36px, 5vw, 64px);
+  line-height: 1.05;
+  letter-spacing: -1px;
+  margin-bottom: 16px;
+}
+.section-title em { font-style: italic; color: var(--cyan); }
 
+.section-sub {
+  color: var(--white-dim);
+  font-size: 16px;
+  max-width: 560px;
+  margin-bottom: 64px;
+  line-height: 1.8;
+}
 
+/* SOBRE */
+.sobre-grid {
+  display: grid;
+  grid-template-columns: 1.4fr 1fr;
+  gap: 80px;
+  align-items: start;
+}
+.sobre-text p {
+  color: var(--white-dim);
+  font-size: 16px;
+  line-height: 1.95;
+  margin-bottom: 20px;
+}
+.sobre-text strong { color: var(--white); font-weight: 500; }
 
+.info-list { display: flex; flex-direction: column; gap: 2px; }
+.info-item {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  padding: 16px 20px;
+  border-radius: 2px;
+  border-left: 2px solid transparent;
+  transition: all 0.2s;
+}
+.info-item:hover {
+  background: var(--white-ghost);
+  border-left-color: var(--cyan);
+}
+.info-label {
+  font-size: 10px;
+  text-transform: uppercase;
+  letter-spacing: 1.5px;
+  color: var(--cyan);
+  min-width: 80px;
+  font-weight: 600;
+}
+.info-val { font-size: 14px; color: var(--white-dim); }
 
+/* TRAJETÓRIA */
+.traj-bg { background: var(--ink-mid); }
 
+.timeline { position: relative; padding-left: 40px; }
+.timeline::before {
+  content: '';
+  position: absolute;
+  left: 0; top: 12px; bottom: 12px;
+  width: 1px;
+  background: linear-gradient(180deg, var(--cyan), var(--blue), transparent);
+  opacity: 0.5;
+}
 
-.proj-body{padding:40px 48px;display:grid;grid-template-columns:1fr 1fr;gap:48px;border-top:1px solid rgba(238,243,255,.05);margin-top:32px;}
-.proj-col h4{font-family:'Syne',sans-serif;font-size:11px;font-weight:600;color:var(--cyan);letter-spacing:2px;text-transform:uppercase;margin-bottom:24px;}
-.feat{display:flex;gap:14px;margin-bottom:18px;align-items:flex-start;}
-.feat-line{width:2px;background:rgba(0,212,255,.25);flex-shrink:0;margin-top:6px;min-height:14px;}
-.feat-txt{font-size:14px;color:var(--white-dim);line-height:1.65;}
-.feat-txt strong{color:var(--white);font-weight:500;}
-.impact-box{background:rgba(0,212,255,.04);border:1px solid rgba(0,212,255,.09);border-left:2px solid var(--cyan);border-radius:0 10px 10px 0;padding:18px 22px;margin-bottom:12px;}
-.impact-num{font-family:'Syne',sans-serif;font-size:28px;font-weight:800;color:var(--cyan);line-height:1;}
-.impact-desc{font-size:12.5px;color:var(--white-dim);margin-top:4px;line-height:1.5;}
+.tl-item {
+  position: relative;
+  margin-bottom: 48px;
+  padding: 32px 40px;
+  background: var(--white-ghost);
+  border: 1px solid rgba(0,212,255,0.06);
+  border-radius: 2px;
+  transition: all 0.3s;
+}
+.tl-item:hover {
+  border-color: var(--cyan-border);
+  background: var(--cyan-faint);
+}
+.tl-item::before {
+  content: '';
+  position: absolute;
+  left: -44px; top: 32px;
+  width: 9px; height: 9px;
+  border-radius: 50%;
+  background: var(--cyan);
+  border: 2px solid var(--ink);
+  box-shadow: 0 0 12px var(--cyan);
+}
+.tl-period {
+  font-size: 10px;
+  letter-spacing: 2px;
+  text-transform: uppercase;
+  color: var(--cyan);
+  margin-bottom: 8px;
+  font-weight: 600;
+}
+.tl-role {
+  font-family: var(--display);
+  font-size: 18px;
+  font-weight: 700;
+  margin-bottom: 4px;
+  letter-spacing: -0.3px;
+}
+.tl-company {
+  font-size: 12px;
+  color: var(--white-dim);
+  margin-bottom: 20px;
+  letter-spacing: 0.5px;
+}
+.tl-bullets { list-style: none; }
+.tl-bullets li {
+  font-size: 14px;
+  color: var(--white-dim);
+  padding: 5px 0 5px 20px;
+  position: relative;
+  line-height: 1.7;
+}
+.tl-bullets li::before {
+  content: '';
+  position: absolute;
+  left: 0; top: 14px;
+  width: 4px; height: 4px;
+  border-radius: 50%;
+  background: var(--cyan);
+  opacity: 0.5;
+}
+.tl-bullets li strong { color: var(--white); font-weight: 500; }
 
-.skills-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:18px;}
-.sk-card{background:var(--white-faint);border:1px solid rgba(0,212,255,.06);border-radius:16px;padding:28px;position:relative;overflow:hidden;transition:all .3s;}
-.sk-card::before{content:'';position:absolute;top:0;left:0;right:0;height:2px;background:linear-gradient(90deg,var(--blue),var(--cyan));transform:scaleX(0);transform-origin:left;transition:transform .35s;}
-.sk-card:hover{border-color:rgba(0,212,255,.16);background:rgba(0,212,255,.04);}
-.sk-card:hover::before{transform:scaleX(1);}
-.sk-title{font-family:'Syne',sans-serif;font-weight:700;font-size:15px;margin-bottom:10px;}
-.sk-desc{font-size:13px;color:var(--white-dim);line-height:1.7;margin-bottom:16px;}
-.sk-tags{display:flex;flex-wrap:wrap;gap:6px;}
-.sk-tag{background:var(--cyan-dim);border:1px solid rgba(0,212,255,.15);color:var(--cyan);padding:3px 10px;border-radius:4px;font-size:11px;}
+/* PROJETO */
+.proj-card {
+  border: 1px solid var(--cyan-border);
+  border-radius: 2px;
+  overflow: hidden;
+  background: var(--ink-mid);
+}
 
-.res-section{background:rgba(13,32,64,.35);}
-.res-grid{display:grid;grid-template-columns:1fr 1fr;gap:18px;}
-.res-card{background:var(--white-faint);border:1px solid rgba(0,212,255,.09);border-radius:16px;padding:32px 36px;display:flex;gap:24px;align-items:flex-start;transition:all .3s;}
-.res-card:hover{border-color:rgba(0,212,255,.2);background:rgba(0,212,255,.04);transform:translateY(-3px);}
-.res-card.full{grid-column:1/-1;background:linear-gradient(135deg,rgba(27,92,219,.15),rgba(0,212,255,.06));border-color:rgba(0,212,255,.18);}
-.res-num{font-family:'Syne',sans-serif;font-size:52px;font-weight:800;color:var(--cyan);line-height:1;min-width:120px;text-align:center;}
-.res-num small{font-size:20px;}
-.res-info h4{font-family:'Syne',sans-serif;font-weight:700;font-size:16px;margin-bottom:8px;}
-.res-info p{font-size:14px;color:var(--white-dim);line-height:1.75;}
+.proj-header {
+  padding: 48px 56px;
+  background: linear-gradient(135deg, rgba(27,92,219,0.2), rgba(0,212,255,0.05));
+  border-bottom: 1px solid rgba(0,212,255,0.08);
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  flex-wrap: wrap;
+  gap: 24px;
+}
+.proj-header-text h3 {
+  font-family: var(--serif);
+  font-size: 28px;
+  letter-spacing: -0.5px;
+  margin-bottom: 10px;
+  line-height: 1.2;
+}
+.proj-header-text p {
+  color: var(--white-dim);
+  font-size: 14px;
+  max-width: 540px;
+  line-height: 1.75;
+}
+.proj-status {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  border: 1px solid rgba(0,229,160,0.3);
+  color: var(--green);
+  padding: 8px 18px;
+  border-radius: 2px;
+  font-size: 10px;
+  letter-spacing: 1.5px;
+  text-transform: uppercase;
+  font-weight: 600;
+  white-space: nowrap;
+}
+.proj-status::before {
+  content: '';
+  width: 6px; height: 6px;
+  border-radius: 50%;
+  background: var(--green);
+  box-shadow: 0 0 8px var(--green);
+  animation: pulse 2s ease infinite;
+}
 
-.tools{display:flex;flex-wrap:wrap;gap:10px;}
-.tool{background:var(--white-faint);border:1px solid rgba(255,255,255,.06);color:var(--white-dim);padding:8px 18px;border-radius:8px;font-size:13px;transition:all .2s;}
-.tool:hover{background:rgba(0,212,255,.07);border-color:rgba(0,212,255,.25);color:var(--cyan);}
+/* GALLERY */
+.gallery-section { padding: 40px 56px 0; }
+.gallery-label {
+  font-size: 10px;
+  letter-spacing: 2px;
+  text-transform: uppercase;
+  color: var(--white-dim);
+  margin-bottom: 16px;
+  font-weight: 600;
+}
+.gallery-main {
+  position: relative;
+  border-radius: 2px;
+  overflow: hidden;
+  border: 1px solid var(--cyan-border);
+  cursor: zoom-in;
+  height: 420px;
+}
+.gallery-main img {
+  width: 100%; height: 100%;
+  object-fit: cover;
+  object-position: left top;
+  display: block;
+  transition: transform 0.5s ease;
+}
+.gallery-main:hover img { transform: scale(1.02); }
+.gallery-main-label {
+  position: absolute;
+  bottom: 16px; left: 16px;
+  background: rgba(10,15,30,0.9);
+  border: 1px solid var(--cyan-border);
+  padding: 6px 16px;
+  font-size: 11px;
+  font-weight: 600;
+  color: var(--cyan);
+  letter-spacing: 0.5px;
+  backdrop-filter: blur(8px);
+}
+.gallery-thumbs {
+  display: grid;
+  grid-template-columns: repeat(6, 1fr);
+  gap: 8px;
+  margin-top: 8px;
+}
+.gallery-thumb {
+  height: 72px;
+  border-radius: 2px;
+  overflow: hidden;
+  border: 1px solid rgba(240,244,255,0.05);
+  cursor: pointer;
+  position: relative;
+  transition: border-color 0.2s, transform 0.2s;
+}
+.gallery-thumb:hover { border-color: var(--cyan-border); transform: translateY(-2px); }
+.gallery-thumb.active { border-color: var(--cyan); }
+.gallery-thumb img {
+  width: 100%; height: 100%;
+  object-fit: cover;
+  object-position: left top;
+  filter: brightness(0.75);
+  transition: filter 0.2s;
+}
+.gallery-thumb:hover img, .gallery-thumb.active img { filter: brightness(1); }
+.gallery-thumb-label {
+  position: absolute;
+  bottom: 0; left: 0; right: 0;
+  background: linear-gradient(transparent, rgba(10,15,30,0.95));
+  padding: 12px 6px 5px;
+  font-size: 9px;
+  font-weight: 600;
+  color: var(--white-dim);
+  text-align: center;
+  letter-spacing: 0.5px;
+}
+.gallery-disclaimer {
+  margin-top: 12px;
+  padding: 10px 16px;
+  background: rgba(255,209,102,0.04);
+  border: 1px solid rgba(255,209,102,0.12);
+  font-size: 11px;
+  color: rgba(255,209,102,0.6);
+  border-radius: 2px;
+}
 
-.certs{display:grid;grid-template-columns:repeat(4,1fr);gap:12px;}
-.cert{background:var(--white-faint);border:1px solid rgba(0,212,255,.06);border-radius:10px;padding:20px 16px;transition:all .3s;}
-.cert:hover{border-color:rgba(0,212,255,.22);transform:translateY(-3px);background:rgba(0,212,255,.04);}
-.cert-name{font-family:'Syne',sans-serif;font-weight:700;font-size:13px;margin-bottom:4px;color:var(--white);}
-.cert-org{font-size:11px;color:var(--white-dim);}
+.proj-body {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 56px;
+  padding: 48px 56px;
+  border-top: 1px solid rgba(240,244,255,0.04);
+  margin-top: 40px;
+}
+.proj-col-title {
+  font-size: 10px;
+  letter-spacing: 2.5px;
+  text-transform: uppercase;
+  color: var(--cyan);
+  font-weight: 600;
+  margin-bottom: 28px;
+}
+.feat {
+  display: flex;
+  gap: 16px;
+  margin-bottom: 20px;
+  align-items: flex-start;
+}
+.feat-dot {
+  width: 1px;
+  background: rgba(0,212,255,0.3);
+  flex-shrink: 0;
+  margin-top: 8px;
+  min-height: 16px;
+}
+.feat-txt { font-size: 14px; color: var(--white-dim); line-height: 1.7; }
+.feat-txt strong { color: var(--white); font-weight: 500; }
 
-.contact-section{text-align:center;background:linear-gradient(180deg,transparent,rgba(27,92,219,.10));padding-bottom:120px;}
-.contact-cards{display:flex;justify-content:center;gap:14px;flex-wrap:wrap;margin-top:48px;}
-.contact-card{display:flex;align-items:center;gap:12px;background:var(--white-faint);border:1px solid rgba(0,212,255,.12);border-radius:12px;padding:16px 28px;color:var(--white);text-decoration:none;font-size:14px;transition:all .3s;}
-.contact-card:hover{background:rgba(0,212,255,.06);border-color:rgba(0,212,255,.32);transform:translateY(-2px);}
+.impact-row {
+  padding: 20px 0;
+  border-bottom: 1px solid rgba(240,244,255,0.05);
+  display: flex;
+  align-items: baseline;
+  gap: 16px;
+}
+.impact-row:last-child { border-bottom: none; }
+.impact-num {
+  font-family: var(--display);
+  font-size: 24px;
+  font-weight: 800;
+  color: var(--cyan);
+  min-width: 80px;
+  line-height: 1;
+  letter-spacing: -0.5px;
+}
+.impact-desc { font-size: 13px; color: var(--white-dim); line-height: 1.6; }
 
-footer{position:relative;z-index:1;text-align:center;padding:24px;border-top:1px solid rgba(0,212,255,.05);font-size:11px;color:rgba(238,243,255,.22);letter-spacing:1px;}
+/* COMPETÊNCIAS */
+.comp-bg { background: rgba(20,25,41,0.5); }
 
+.skills-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 1px;
+  background: rgba(0,212,255,0.06);
+  border: 1px solid rgba(0,212,255,0.06);
+}
+.sk-card {
+  background: var(--ink);
+  padding: 36px;
+  position: relative;
+  overflow: hidden;
+  transition: background 0.3s;
+}
+.sk-card::after {
+  content: '';
+  position: absolute;
+  top: 0; left: 0; right: 0;
+  height: 1px;
+  background: var(--cyan);
+  transform: scaleX(0);
+  transform-origin: left;
+  transition: transform 0.4s;
+}
+.sk-card:hover { background: var(--cyan-faint); }
+.sk-card:hover::after { transform: scaleX(1); }
 
+.sk-number {
+  font-family: var(--display);
+  font-size: 48px;
+  font-weight: 800;
+  color: rgba(0,212,255,0.08);
+  line-height: 1;
+  margin-bottom: 16px;
+  letter-spacing: -2px;
+}
+.sk-title {
+  font-family: var(--display);
+  font-size: 15px;
+  font-weight: 700;
+  margin-bottom: 12px;
+  letter-spacing: -0.2px;
+}
+.sk-desc { font-size: 13px; color: var(--white-dim); line-height: 1.75; margin-bottom: 20px; }
+.sk-tags { display: flex; flex-wrap: wrap; gap: 6px; }
+.sk-tag {
+  font-size: 10px;
+  letter-spacing: 1px;
+  padding: 4px 10px;
+  border: 1px solid rgba(0,212,255,0.15);
+  color: rgba(0,212,255,0.7);
+  background: rgba(0,212,255,0.05);
+  text-transform: uppercase;
+}
 
+/* RESULTADOS */
+.res-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 2px;
+  background: rgba(0,212,255,0.04);
+}
+.res-card {
+  background: var(--ink);
+  padding: 40px 48px;
+  display: flex;
+  gap: 32px;
+  align-items: flex-start;
+  transition: background 0.3s;
+}
+.res-card:hover { background: var(--cyan-faint); }
+.res-card.full { grid-column: 1/-1; }
+.res-num {
+  font-family: var(--serif);
+  font-style: italic;
+  font-size: 56px;
+  color: var(--cyan);
+  line-height: 1;
+  min-width: 130px;
+  letter-spacing: -1px;
+}
+.res-num small { font-size: 24px; }
+.res-info h4 {
+  font-family: var(--display);
+  font-size: 16px;
+  font-weight: 700;
+  margin-bottom: 10px;
+  letter-spacing: -0.2px;
+}
+.res-info p { font-size: 14px; color: var(--white-dim); line-height: 1.8; }
 
+/* FERRAMENTAS */
+.tools { display: flex; flex-wrap: wrap; gap: 8px; }
+.tool {
+  font-size: 12px;
+  padding: 8px 16px;
+  border: 1px solid rgba(240,244,255,0.07);
+  color: var(--white-dim);
+  letter-spacing: 0.3px;
+  transition: all 0.2s;
+  cursor: default;
+}
+.tool:hover {
+  border-color: var(--cyan-border);
+  color: var(--white);
+  background: var(--cyan-faint);
+}
 
+/* CERTS */
+.certs-grid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 2px;
+  background: rgba(0,212,255,0.04);
+  margin-top: 0;
+}
+.cert-card {
+  background: var(--ink);
+  padding: 24px;
+  border-left: 2px solid transparent;
+  transition: all 0.2s;
+}
+.cert-card:hover {
+  background: var(--cyan-faint);
+  border-left-color: var(--cyan);
+}
+.cert-name { font-size: 13px; font-weight: 600; margin-bottom: 4px; letter-spacing: -0.2px; }
+.cert-org { font-size: 11px; color: var(--white-dim); }
 
+/* CONTATO */
+.contact-section {
+  text-align: center;
+  background: linear-gradient(180deg, transparent, rgba(27,92,219,0.08));
+  padding-bottom: 140px;
+}
+.contact-title {
+  font-family: var(--serif);
+  font-size: clamp(40px, 6vw, 80px);
+  line-height: 1;
+  letter-spacing: -2px;
+  margin-bottom: 16px;
+}
+.contact-title em { font-style: italic; color: var(--cyan); }
+.contact-sub {
+  color: var(--white-dim);
+  font-size: 16px;
+  margin-bottom: 56px;
+  max-width: 500px;
+  margin-left: auto;
+  margin-right: auto;
+}
+.contact-cards {
+  display: flex;
+  justify-content: center;
+  gap: 12px;
+  flex-wrap: wrap;
+}
+.contact-card {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 16px 32px;
+  border: 1px solid var(--cyan-border);
+  color: var(--white);
+  text-decoration: none;
+  font-size: 13px;
+  letter-spacing: 0.5px;
+  transition: all 0.2s;
+}
+.contact-card:hover {
+  background: var(--cyan-faint);
+  border-color: var(--cyan);
+  transform: translateY(-2px);
+}
 
-@keyframes fadeUp{from{opacity:0;transform:translateY(22px);}to{opacity:1;transform:translateY(0);}}
-.fu{opacity:0;transform:translateY(26px);transition:opacity .65s ease,transform .65s ease;}
-.fu.on{opacity:1;transform:translateY(0);}
-.fu:nth-child(2){transition-delay:.07s;}
-.fu:nth-child(3){transition-delay:.14s;}
-.fu:nth-child(4){transition-delay:.21s;}
-.fu:nth-child(5){transition-delay:.28s;}
-.fu:nth-child(6){transition-delay:.35s;}
+/* FOOTER */
+footer {
+  position: relative; z-index: 1;
+  text-align: center;
+  padding: 24px;
+  border-top: 1px solid rgba(0,212,255,0.05);
+  font-size: 11px;
+  color: rgba(240,244,255,0.2);
+  letter-spacing: 1px;
+}
 
-@media(max-width:900px){
-  nav{padding:16px 24px;}.nav-links{display:none;}
-  section{padding:72px 24px;}.hero{padding:120px 24px 60px;}
-  .strip{grid-template-columns:1fr 1fr;}
-  .sobre-grid,.proj-body,.skills-grid,.res-grid,.certs{grid-template-columns:1fr;}
-  .res-card.full{grid-column:1;}
-  
-  
-  .proj-body{padding:32px 24px;}
-  .proj-head{padding:28px 24px;}
+/* LIGHTBOX */
+.lightbox {
+  display: none;
+  position: fixed; inset: 0;
+  background: rgba(10,15,30,0.97);
+  z-index: 9998;
+  align-items: center;
+  justify-content: center;
+  padding: 24px;
+  backdrop-filter: blur(16px);
+}
+.lightbox.open { display: flex; }
+.lightbox img {
+  max-width: 95vw; max-height: 90vh;
+  border: 1px solid var(--cyan-border);
+  box-shadow: 0 0 80px rgba(0,212,255,0.1);
+}
+.lightbox-close {
+  position: fixed; top: 24px; right: 24px;
+  background: var(--white-ghost);
+  border: 1px solid var(--cyan-border);
+  color: var(--white);
+  width: 40px; height: 40px;
+  display: flex; align-items: center; justify-content: center;
+  cursor: pointer; font-size: 16px;
+  transition: background 0.2s;
+}
+.lightbox-close:hover { background: var(--cyan-faint); }
+
+/* ANIMATIONS */
+@keyframes fadeUp {
+  from { opacity: 0; transform: translateY(24px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+.reveal {
+  opacity: 0;
+  transform: translateY(28px);
+  transition: opacity 0.7s ease, transform 0.7s ease;
+}
+.reveal.on { opacity: 1; transform: translateY(0); }
+.reveal:nth-child(2) { transition-delay: 0.08s; }
+.reveal:nth-child(3) { transition-delay: 0.16s; }
+.reveal:nth-child(4) { transition-delay: 0.24s; }
+.reveal:nth-child(5) { transition-delay: 0.32s; }
+.reveal:nth-child(6) { transition-delay: 0.40s; }
+
+/* RESPONSIVE */
+@media (max-width: 900px) {
+  nav { padding: 16px 24px; }
+  .nav-links { display: none; }
+  section { padding: 80px 24px; }
+  .hero { padding: 130px 24px 80px; }
+  .strip { grid-template-columns: 1fr 1fr; }
+  .sobre-grid, .proj-body, .skills-grid, .res-grid, .certs-grid { grid-template-columns: 1fr; }
+  .res-card.full { grid-column: 1; }
+  .proj-header, .gallery-section { padding-left: 24px; padding-right: 24px; }
+  .proj-body { padding: 32px 24px; }
+  .gallery-thumbs { grid-template-columns: repeat(3, 1fr); }
 }
 </style>
 </head>
@@ -210,21 +846,26 @@ footer{position:relative;z-index:1;text-align:center;padding:24px;border-top:1px
   </ul>
 </nav>
 
+<!-- HERO -->
 <section class="hero">
-  <div class="glow"></div>
-  <div class="glow2"></div>
+  <div class="hero-bg"></div>
+  <div class="hero-line"></div>
   <div class="hero-content">
-    <div class="hero-tag">Disponível para novas oportunidades</div>
-    <h1>Daniele<br><span class="grad">Pinheiro</span></h1>
-    <p class="hero-sub">Governança de Segurança da Informação · GRC · Indicadores Estratégicos</p>
+    <div class="hero-eyebrow">
+      <div class="hero-eyebrow-dot"></div>
+      <span>Em busca de novas oportunidades</span>
+    </div>
+    <h1 class="hero-name">Daniele<br><em>Pinheiro</em></h1>
+    <p class="hero-role">Governança de Segurança da Informação &nbsp;·&nbsp; GRC &nbsp;·&nbsp; Indicadores Estratégicos</p>
     <p class="hero-quote">"O que me move é chegar com dados reais, dar feedbacks concretos e garantir que nenhum SLA quebre. Mitigar risco antes que ele vire problema. É isso que eu faço."</p>
     <div class="hero-ctas">
       <a href="#contato" class="btn-primary">Entre em contato →</a>
-      <a href="#projeto" class="btn-outline">Ver projetos</a>
+      <a href="#projeto" class="btn-ghost">Ver projeto</a>
     </div>
   </div>
 </section>
 
+<!-- STRIP -->
 <div class="strip">
   <div class="strip-item">
     <div class="strip-num" data-target="5" data-suffix="+">0</div>
@@ -239,7 +880,7 @@ footer{position:relative;z-index:1;text-align:center;padding:24px;border-top:1px
     <div class="strip-label">Tickets analisados por semana</div>
   </div>
   <div class="strip-item">
-    <div class="strip-num" data-target="19" data-suffix="">0</div>
+    <div class="strip-num" data-target="21" data-suffix="">0</div>
     <div class="strip-label">Módulos de análise desenvolvidos</div>
   </div>
   <div class="strip-item">
@@ -248,95 +889,100 @@ footer{position:relative;z-index:1;text-align:center;padding:24px;border-top:1px
   </div>
 </div>
 
+<!-- SOBRE -->
 <section id="sobre">
-  <div class="stag">Quem sou</div>
-  <div class="stitle">Sobre mim</div>
+  <div class="section-tag">Quem sou</div>
   <div class="sobre-grid">
-    <div class="sobre-text fu">
-      <p>Trabalho com <strong>Governança de Segurança da Informação e GRC</strong> e o que mais me move nessa área é chegar para os times e para a liderança com dados concretos. Não suposições, não feeling. Dados que mostram exatamente onde está o problema, quem precisa agir e o que precisa melhorar.</p>
-      <p>Apresento indicadores de segurança <strong>semanalmente para a diretoria</strong> e trabalho diretamente com os líderes técnicos de CTI, CSIRT, Threat Hunting, SOC, Endpoint e GRC para que a operação se mantenha dentro do SLA, com qualidade e sem surpresas.</p>
-      <p>Para fazer isso funcionar de verdade, construí do zero uma <strong>plataforma própria de monitoramento de indicadores</strong> integrada ao sistema de chamados da operação. Hoje ela acompanha mais de 30 clientes simultâneos, analisa mais de 1.000 tickets por semana e gera relatórios executivos automáticos que vão direto para a liderança.</p>
-      <p>Antes de chegar aqui, passei por <strong>SOC 24x7, análise de incidentes, gestão de TI e operações de grande porte</strong>, o que me deu uma visão técnica que a maioria dos profissionais de governança não tem. Entendo o que acontece no nível do analista e sei transformar isso em linguagem de negócio.</p>
+    <div class="sobre-text reveal">
+      <div class="section-title" style="margin-bottom:32px">Sobre <em>mim</em></div>
+      <p>Trabalho com <strong>Governança de Segurança da Informação e GRC</strong> e o que me move nessa área é transformar dados operacionais em decisões. Não suposições, não feeling — dados que mostram exatamente onde está o problema, quem precisa agir e o que muda se nada for feito.</p>
+      <p>Construí do zero uma <strong>plataforma própria de monitoramento de indicadores</strong> integrada ao sistema de chamados da operação. Ela acompanha mais de 30 clientes simultâneos, processa mais de 1.000 tickets por semana e gera relatórios executivos automáticos que vão direto para a diretoria — tudo sem budget para ferramentas prontas.</p>
+      <p>Apresento indicadores de segurança <strong>semanalmente para a diretoria</strong> e atuo como ponto de contato entre as equipes técnicas de CTI, CSIRT, Threat Hunting, SOC, Endpoint e GRC. Entendo o que acontece no nível do analista e sei traduzir isso em linguagem estratégica.</p>
+      <p>Antes de chegar aqui, passei por <strong>SOC 24x7, análise de incidentes e operações de grande escala</strong> — o que me deu uma visão técnica que a maioria dos profissionais de governança simplesmente não tem.</p>
     </div>
-    <div class="info-stack fu">
-      <div class="info-card"><div class="info-icon">📍</div><div><div class="info-lbl">Localização</div><div class="info-val">São Paulo, SP</div></div></div>
-      <div class="info-card"><div class="info-icon">🎓</div><div><div class="info-lbl">Formação</div><div class="info-val">Defesa Cibernética na FIAP (cursando)</div></div></div>
-      <div class="info-card"><div class="info-icon">🌐</div><div><div class="info-lbl">Idiomas</div><div class="info-val">Português · Espanhol avançado · Inglês técnico</div></div></div>
-      <div class="info-card"><div class="info-icon">🎯</div><div><div class="info-lbl">Área de atuação</div><div class="info-val">Governança de SI · GRC · Indicadores · KPIs</div></div></div>
-      <div class="info-card"><div class="info-icon">💼</div><div><div class="info-lbl">Disponibilidade</div><div class="info-val">CLT ou PJ · Presencial SP ou Remoto</div></div></div>
+    <div class="reveal">
+      <div class="info-list">
+        <div class="info-item"><span class="info-label">Localização</span><span class="info-val">São Paulo, SP</span></div>
+        <div class="info-item"><span class="info-label">Formação</span><span class="info-val">Defesa Cibernética · FIAP (cursando)</span></div>
+        <div class="info-item"><span class="info-label">Idiomas</span><span class="info-val">Português · Espanhol avançado · Inglês técnico</span></div>
+        <div class="info-item"><span class="info-label">Foco</span><span class="info-val">Governança · GRC · Indicadores · KPIs</span></div>
+        <div class="info-item"><span class="info-label">Regime</span><span class="info-val">CLT ou PJ · Presencial SP ou Remoto</span></div>
+      </div>
     </div>
   </div>
 </section>
 
-<section id="trajetoria" class="traj-section">
-  <div class="stag">Histórico profissional</div>
-  <div class="stitle">Trajetória</div>
-  <p class="ssub">Da operação técnica à governança estratégica, uma evolução construída com consistência e propósito.</p>
-  <div class="timeline fu">
-    <div class="tl-item">
-      <div class="tl-period">Abr/2025 – Presente</div>
+<!-- TRAJETÓRIA -->
+<section id="trajetoria" class="traj-bg">
+  <div class="section-tag">Histórico profissional</div>
+  <div class="section-title">Trajetória</div>
+  <p class="section-sub">Da operação técnica à governança estratégica, uma evolução construída com consistência e propósito.</p>
+  <div class="timeline">
+    <div class="tl-item reveal">
+      <div class="tl-period">Abr/2025 – Maio/2026</div>
       <div class="tl-role">Gestão de Operações de Segurança da Informação</div>
       <div class="tl-company">Service IT · Remoto</div>
       <ul class="tl-bullets">
-        <li>Estruturou do zero o modelo de <strong>governança operacional</strong> da área de segurança, definindo políticas de triagem, fluxos de escalonamento e padrões de conformidade</li>
-        <li>Desenvolveu plataforma própria de <strong>KPIs e indicadores estratégicos</strong> com 19 módulos de análise cobrindo SLA, MTTR, MTTA, qualidade, risco contratual e desempenho por grupo técnico</li>
-        <li>Monitora <strong>mais de 30 clientes simultâneos</strong> e mais de 1.000 tickets semanais em ambiente de segurança gerenciada</li>
-        <li>Manteve <strong>zero SLA vencido</strong> no principal cliente externo por mais de 4 meses consecutivos, contrato com cláusula de multa de alto valor contratual</li>
-        <li>Apresenta indicadores e relatórios de segurança <strong>semanalmente para a diretoria</strong>, traduzindo dados operacionais em linguagem estratégica</li>
-        <li>Implementou metodologia de <strong>score de qualidade por grupo técnico</strong> com acompanhamento semanal e feedback individual por líder</li>
+        <li>Estruturou do zero o modelo de <strong>governança operacional</strong> da área, definindo políticas de triagem, fluxos de escalonamento e padrões de conformidade que profissionalizaram a operação</li>
+        <li>Desenvolveu plataforma própria de <strong>KPIs e indicadores estratégicos</strong> com 21 módulos de análise cobrindo SLA, MTTR, MTTA, qualidade, risco contratual, MSS vs SOC e desempenho por grupo técnico</li>
+        <li>Monitorou <strong>mais de 30 clientes simultâneos</strong> e mais de 1.000 tickets semanais em ambiente de segurança gerenciada</li>
+        <li>Manteve <strong>zero SLA vencido</strong> no principal cliente externo por mais de 1 ano consecutivo, contrato com cláusula de multa de alto valor</li>
+        <li>Apresentou indicadores e relatórios de segurança <strong>semanalmente para a diretoria</strong>, traduzindo dados operacionais em linguagem estratégica</li>
+        <li>Implementou metodologia de <strong>score de qualidade por grupo técnico</strong> com critérios auditáveis e feedback individual semanal para cada líder</li>
       </ul>
     </div>
-    <div class="tl-item">
+    <div class="tl-item reveal">
       <div class="tl-period">Jan/2025 – Set/2025</div>
       <div class="tl-role">Analista de Cibersegurança (SOC)</div>
       <div class="tl-company">e-Safer · Remoto</div>
       <ul class="tl-bullets">
-        <li>Monitorou e triou alertas de segurança em <strong>SIEM (Splunk e TRIO)</strong> em ambiente SOC 24x7, com correlação de eventos e investigação de incidentes</li>
+        <li>Monitorou e triou alertas em <strong>SIEM (Splunk e TRIO)</strong> em ambiente SOC 24x7, com correlação de eventos e investigação de incidentes</li>
         <li>Investigou incidentes de <strong>phishing, malware e exposição de credenciais</strong>, documentando achados e propondo melhorias em playbooks operacionais</li>
-        <li>Gerenciou alertas e contenção de endpoint via <strong>CrowdStrike EDR</strong>, com registro adequado para fins de auditoria</li>
+        <li>Gerenciou alertas e contenção via <strong>CrowdStrike EDR</strong> com registro adequado para auditoria</li>
         <li>Conduziu análises de <strong>threat intelligence</strong> com VirusTotal e SOCRadar para avaliação de IOCs e TTPs</li>
       </ul>
     </div>
-    <div class="tl-item">
+    <div class="tl-item reveal">
       <div class="tl-period">Jan/2023 – Mar/2024</div>
       <div class="tl-role">Analista de Gestão de TI</div>
       <div class="tl-company">Network Solution Brazil · São Paulo, SP</div>
       <ul class="tl-bullets">
-        <li>Triou e priorizou incidentes de segurança garantindo <strong>conformidade com SLA</strong> e escalada adequada por nível de criticidade</li>
-        <li>Analisou logs de rede e conduziu troubleshooting para identificação de causas raiz, contribuindo para melhoria contínua dos processos</li>
+        <li>Triou e priorizou incidentes garantindo <strong>conformidade com SLA</strong> e escalada adequada por nível de criticidade</li>
+        <li>Analisou logs de rede e conduziu troubleshooting para identificação de causas raiz, contribuindo para a base de conhecimento</li>
       </ul>
     </div>
-    <div class="tl-item">
+    <div class="tl-item reveal">
       <div class="tl-period">Experiência anterior</div>
       <div class="tl-role">Gestão de Processos e Operações de TI</div>
       <div class="tl-company">Mercado Livre · Remoto</div>
       <ul class="tl-bullets">
-        <li>Gestão de processos e demandas de TI em ambiente de tecnologia de grande escala e alta complexidade operacional</li>
+        <li>Gestão de processos e demandas de TI em um dos maiores ambientes de tecnologia da América Latina</li>
         <li>Organização de fluxos operacionais e apoio a iniciativas de padronização e melhoria de eficiência</li>
       </ul>
     </div>
   </div>
 </section>
 
+<!-- PROJETO -->
 <section id="projeto">
-  <div class="stag">Projeto principal</div>
-  <div class="stitle">Plataforma de Indicadores de SI</div>
-  <p class="ssub">Desenvolvida do zero, sem budget para ferramentas prontas, só com visão analítica e domínio do negócio.</p>
-  <div class="proj-card fu">
-    <div class="proj-head">
-      <div>
+  <div class="section-tag">Projeto principal</div>
+  <div class="section-title" style="max-width:700px;margin-bottom:12px">Plataforma de <em>Indicadores</em> de SI</div>
+  <p class="section-sub">Desenvolvida do zero, sem budget para ferramentas prontas, com visão analítica e domínio profundo do negócio.</p>
+
+  <div class="proj-card reveal">
+    <div class="proj-header">
+      <div class="proj-header-text">
         <h3>Dashboard de Governança Operacional</h3>
         <p>Plataforma web de monitoramento de KPIs integrada ao sistema de chamados de uma operação de segurança gerenciada com mais de 30 clientes e mais de 1.000 tickets semanais. Utilizada toda semana nas apresentações à diretoria.</p>
       </div>
-      <div class="badge-green">Em produção</div>
+      <div class="proj-status">Em produção</div>
     </div>
 
-    <div class="gallery-wrap">
-      <div class="gallery-eyebrow">Capturas de tela</div>
-      <div class="gallery-subtitle">Principais telas do sistema</div>
+    <div class="gallery-section">
+      <div class="gallery-label">Capturas de tela — dados fictícios para demonstração</div>
       <div class="gallery-main" onclick="openLightbox(currentIdx)">
-        <img id="mainImg" src="screen1.png" alt="Visão geral do dashboard">
-        <div class="gallery-main-label" id="mainLabel">Visão Geral: KPIs e alertas críticos</div>
+        <img id="mainImg" src="screen1.png" alt="Visão geral">
+        <div class="gallery-main-label" id="mainLabel">Visão Geral — KPIs e alertas críticos</div>
       </div>
       <div class="gallery-thumbs">
         <div class="gallery-thumb active" onclick="setMain(0,this)">
@@ -346,103 +992,108 @@ footer{position:relative;z-index:1;text-align:center;padding:24px;border-top:1px
           <img src="screen2.png" alt="Ranking"><div class="gallery-thumb-label">Ranking Grupos</div>
         </div>
         <div class="gallery-thumb" onclick="setMain(2,this)">
-          <img src="screen3.png" alt="Score por grupo"><div class="gallery-thumb-label">Score por Grupo</div>
+          <img src="screen3.png" alt="Score"><div class="gallery-thumb-label">Score por Grupo</div>
         </div>
         <div class="gallery-thumb" onclick="setMain(3,this)">
-          <img src="screen4.png" alt="Qualidade"><div class="gallery-thumb-label">Índice de Qualidade</div>
+          <img src="screen4.png" alt="Qualidade"><div class="gallery-thumb-label">Índice Qualidade</div>
         </div>
         <div class="gallery-thumb" onclick="setMain(4,this)">
-          <img src="screen5.png" alt="Evolução semanal"><div class="gallery-thumb-label">Evolução Semanal</div>
+          <img src="screen5.png" alt="Evolução"><div class="gallery-thumb-label">Evolução Semanal</div>
         </div>
         <div class="gallery-thumb" onclick="setMain(5,this)">
-          <img src="screen6.png" alt="Por cliente"><div class="gallery-thumb-label">SLA por Cliente</div>
+          <img src="screen6.png" alt="SLA Cliente"><div class="gallery-thumb-label">SLA por Cliente</div>
         </div>
       </div>
-      <div class="gallery-notice">
-        <span></span>
-        <p>Dados exibidos são fictícios e anonimizados para fins de demonstração.</p>
-      </div>
+      <div class="gallery-disclaimer">Dados exibidos são fictícios e anonimizados para fins de demonstração.</div>
     </div>
 
-        <div class="proj-body">
-      <div class="proj-col">
-        <h4>O que o sistema entrega</h4>
-        <div class="feat"><div class="feat-line"></div><div class="feat-txt"><strong>Monitoramento de SLA, MTTR e MTTA</strong> em tempo real com alertas automáticos de desvio e identificação de tickets sem atualização por limiar de prioridade</div></div>
-        <div class="feat"><div class="feat-line"></div><div class="feat-txt"><strong>Score de qualidade por grupo técnico</strong> com critérios auditáveis: Lição Aprendida, Solução descrita, GUT, Ferramenta de Detecção e Justificativa de SLA</div></div>
-        <div class="feat"><div class="feat-line"></div><div class="feat-txt"><strong>Alertas automáticos de risco contratual</strong> detectando clientes com múltiplos SLAs vencidos, fornecedores sem resposta e tickets críticos sem atribuição técnica</div></div>
-        <div class="feat"><div class="feat-line"></div><div class="feat-txt"><strong>Análise de recorrência</strong> identificando padrões de alertas repetidos por cliente e grupo para diagnóstico de problemas estruturais no ambiente</div></div>
-        <div class="feat"><div class="feat-line"></div><div class="feat-txt"><strong>Relatório executivo em PDF</strong> gerado automaticamente com dados do período para apresentação à diretoria e clientes</div></div>
-        <div class="feat"><div class="feat-line"></div><div class="feat-txt"><strong>SLA por cliente externo</strong> com percentual de cumprimento, nível de risco contratual, MTTR e evolução semanal</div></div>
+    <div class="proj-body">
+      <div>
+        <div class="proj-col-title">O que o sistema entrega</div>
+        <div class="feat"><div class="feat-dot"></div><div class="feat-txt"><strong>Monitoramento de SLA, MTTR e MTTA</strong> em tempo real com alertas automáticos de desvio e identificação de tickets sem atualização por limiar de prioridade</div></div>
+        <div class="feat"><div class="feat-dot"></div><div class="feat-txt"><strong>Score de qualidade por grupo técnico</strong> com critérios auditáveis: Lição Aprendida, Solução descrita, GUT, Ferramenta de Detecção e Justificativa de SLA</div></div>
+        <div class="feat"><div class="feat-dot"></div><div class="feat-txt"><strong>Alertas automáticos de risco contratual</strong> detectando clientes com SLAs vencidos, fornecedores sem resposta e tickets críticos sem atribuição técnica</div></div>
+        <div class="feat"><div class="feat-dot"></div><div class="feat-txt"><strong>Análise comparativa MSS vs SOC</strong> com visibilidade separada por área operacional e indicadores de FCR e falsos positivos</div></div>
+        <div class="feat"><div class="feat-dot"></div><div class="feat-txt"><strong>Relatório executivo em PDF</strong> gerado automaticamente com diagnóstico, sumário executivo e recomendações para apresentação à diretoria</div></div>
+        <div class="feat"><div class="feat-dot"></div><div class="feat-txt"><strong>Evolução semanal de indicadores</strong> com comparativo de períodos e identificação de tendências operacionais</div></div>
       </div>
-      <div class="proj-col">
-        <h4>Impacto gerado</h4>
-        <div class="impact-box"><div class="impact-num">4+ meses</div><div class="impact-desc">Principal cliente sem nenhum SLA vencido, contrato com cláusula de multa de alto valor</div></div>
-        <div class="impact-box"><div class="impact-num">30+ clientes</div><div class="impact-desc">Monitorados simultaneamente com visibilidade individual de SLA, risco e desempenho</div></div>
-        <div class="impact-box"><div class="impact-num">19 módulos</div><div class="impact-desc">De análise desenvolvidos com visão completa da operação de segurança gerenciada</div></div>
-        <div class="impact-box"><div class="impact-num">Semanal</div><div class="impact-desc">Apresentação de indicadores para a diretoria com dados gerados automaticamente pela plataforma</div></div>
+      <div>
+        <div class="proj-col-title">Impacto gerado</div>
+        <div class="impact-row"><div class="impact-num">1 ano</div><div class="impact-desc">Principal cliente externo sem nenhum SLA vencido, contrato com cláusula de multa de alto valor</div></div>
+        <div class="impact-row"><div class="impact-num">30+</div><div class="impact-desc">Clientes monitorados simultaneamente com visibilidade individual de SLA, risco e desempenho</div></div>
+        <div class="impact-row"><div class="impact-num">21</div><div class="impact-desc">Módulos de análise desenvolvidos em HTML puro, sem frameworks ou ferramentas prontas</div></div>
+        <div class="impact-row"><div class="impact-num">Semanal</div><div class="impact-desc">Apresentação de indicadores para a diretoria com dados gerados automaticamente pela plataforma</div></div>
       </div>
     </div>
   </div>
 </section>
 
-<section id="competencias" style="background:rgba(13,32,64,.3)">
-  <div class="stag">Habilidades</div>
-  <div class="stitle">Competências</div>
-  <p class="ssub">Visão estratégica de governança combinada com experiência real em operações de segurança.</p>
+<!-- COMPETÊNCIAS -->
+<section id="competencias" class="comp-bg">
+  <div class="section-tag">Habilidades</div>
+  <div class="section-title">Competências</div>
+  <p class="section-sub">Visão estratégica de governança com experiência real em operações de segurança de ponta a ponta.</p>
   <div class="skills-grid">
-    <div class="sk-card fu">
+    <div class="sk-card reveal">
+      <div class="sk-number">01</div>
       <div class="sk-title">Governança e GRC</div>
-      <div class="sk-desc">Estruturação de políticas, processos de conformidade, controles internos e alinhamento entre segurança e objetivos de negócio.</div>
+      <div class="sk-desc">Defini critérios de qualidade para 8 grupos técnicos, conduzi feedback individual semanal com cada líder e estruturei do zero os fluxos de conformidade de uma operação de MSS.</div>
       <div class="sk-tags"><span class="sk-tag">ISO 27001</span><span class="sk-tag">COBIT</span><span class="sk-tag">LGPD</span><span class="sk-tag">ITIL</span><span class="sk-tag">NIST</span></div>
     </div>
-    <div class="sk-card fu">
+    <div class="sk-card reveal">
+      <div class="sk-number">02</div>
       <div class="sk-title">Indicadores e KPIs</div>
-      <div class="sk-desc">Criação, estruturação e acompanhamento de KPIs de SI, dashboards gerenciais e relatórios executivos para tomada de decisão.</div>
-      <div class="sk-tags"><span class="sk-tag">SLA</span><span class="sk-tag">MTTR</span><span class="sk-tag">MTTA</span><span class="sk-tag">Score de Qualidade</span></div>
+      <div class="sk-desc">Desenvolvi 21 módulos de análise do zero — SLA, MTTR, MTTA, FCR, score de qualidade, risco contratual — e apresento esses dados semanalmente para a diretoria.</div>
+      <div class="sk-tags"><span class="sk-tag">SLA</span><span class="sk-tag">MTTR</span><span class="sk-tag">MTTA</span><span class="sk-tag">FCR</span><span class="sk-tag">Score Qualidade</span></div>
     </div>
-    <div class="sk-card fu">
+    <div class="sk-card reveal">
+      <div class="sk-number">03</div>
       <div class="sk-title">Operações de Segurança</div>
-      <div class="sk-desc">Monitoramento SOC 24x7, triagem e priorização de incidentes, gestão de MSS com múltiplos clientes simultâneos.</div>
-      <div class="sk-tags"><span class="sk-tag">SOC</span><span class="sk-tag">CSIRT</span><span class="sk-tag">Incident Response</span><span class="sk-tag">MITRE ATT&CK</span></div>
+      <div class="sk-desc">Gerenciei SLA de mais de 30 clientes simultâneos em MSS, com experiência prévia em SOC 24x7 analisando alertas em Splunk, CrowdStrike EDR e QRadar.</div>
+      <div class="sk-tags"><span class="sk-tag">SOC</span><span class="sk-tag">MSS</span><span class="sk-tag">CSIRT</span><span class="sk-tag">Incident Response</span><span class="sk-tag">MITRE ATT&CK</span></div>
     </div>
-    <div class="sk-card fu">
+    <div class="sk-card reveal">
+      <div class="sk-number">04</div>
       <div class="sk-title">Gestão de Processos</div>
-      <div class="sk-desc">Estruturação de fluxos operacionais, escalonamento, melhoria contínua e auditoria de conformidade com SLA contratual.</div>
+      <div class="sk-desc">Estruturei políticas de triagem, fluxos de escalonamento e metodologia de score de saúde por grupo — processos que transformaram a maturidade operacional da área.</div>
       <div class="sk-tags"><span class="sk-tag">Scrum</span><span class="sk-tag">PMBOK</span><span class="sk-tag">Melhoria Contínua</span><span class="sk-tag">Auditoria</span></div>
     </div>
-    <div class="sk-card fu">
+    <div class="sk-card reveal">
+      <div class="sk-number">05</div>
       <div class="sk-title">Análise e Inteligência</div>
-      <div class="sk-desc">Análise de logs, correlação de eventos, threat intelligence e identificação de padrões de risco operacional e contratual.</div>
-      <div class="sk-tags"><span class="sk-tag">Splunk</span><span class="sk-tag">QRadar</span><span class="sk-tag">VirusTotal</span><span class="sk-tag">IOC/TTP</span></div>
+      <div class="sk-desc">Identifiquei padrões recorrentes de alertas por cliente, analisei causa raiz de SLAs vencidos por responsabilidade e monitorei ferramentas de detecção como indicador de performance.</div>
+      <div class="sk-tags"><span class="sk-tag">Splunk</span><span class="sk-tag">QRadar</span><span class="sk-tag">VirusTotal</span><span class="sk-tag">IOC/TTP</span><span class="sk-tag">SOCRadar</span></div>
     </div>
-    <div class="sk-card fu">
+    <div class="sk-card reveal">
+      <div class="sk-number">06</div>
       <div class="sk-title">Comunicação com Liderança</div>
-      <div class="sk-desc">Tradução de dados técnicos em linguagem executiva. Apresentações semanais para diretoria com indicadores e análise de risco.</div>
-      <div class="sk-tags"><span class="sk-tag">Relatórios Gerenciais</span><span class="sk-tag">Apresentações</span><span class="sk-tag">Stakeholders</span></div>
+      <div class="sk-desc">Apresentei indicadores semanalmente para o diretor, conduzi conversas difíceis com líderes técnicos sobre qualidade e traduzi dados operacionais em linguagem executiva.</div>
+      <div class="sk-tags"><span class="sk-tag">Relatórios Executivos</span><span class="sk-tag">Apresentações</span><span class="sk-tag">Stakeholders</span></div>
     </div>
   </div>
 </section>
 
-<section id="resultados" class="res-section">
-  <div class="stag">Impacto real</div>
-  <div class="stitle">Resultados</div>
-  <p class="ssub">Números concretos que mostram o que acontece quando governança e dados trabalham juntos.</p>
+<!-- RESULTADOS -->
+<section id="resultados">
+  <div class="section-tag">Impacto real</div>
+  <div class="section-title">Resultados</div>
+  <p class="section-sub">Números que mostram o que acontece quando governança e dados trabalham juntos.</p>
   <div class="res-grid">
-    <div class="res-card full fu">
-      <div class="res-num">4<small>+ meses</small></div>
+    <div class="res-card full reveal">
+      <div class="res-num">1<small> ano</small></div>
       <div class="res-info">
         <h4>Zero SLA vencido no principal cliente externo</h4>
-        <p>Cliente com contrato de alto valor e cláusula de multa significativa. O monitoramento proativo com alertas automáticos de risco manteve o SLA em 100% de conformidade por mais de 4 meses consecutivos, evitando impacto financeiro direto e fortalecendo a confiança contratual.</p>
+        <p>Cliente com contrato de alto valor e cláusula de multa significativa. O monitoramento proativo com alertas automáticos manteve o SLA em 100% de conformidade por mais de 1 ano consecutivo, evitando impacto financeiro direto e fortalecendo a confiança contratual.</p>
       </div>
     </div>
-    <div class="res-card fu">
-      <div class="res-num">20<small>+</small></div>
+    <div class="res-card reveal">
+      <div class="res-num">30<small>+</small></div>
       <div class="res-info">
         <h4>Clientes com visibilidade individual</h4>
         <p>Mais de 30 clientes simultâneos com SLA, risco contratual e desempenho acompanhados semana a semana através da plataforma desenvolvida.</p>
       </div>
     </div>
-    <div class="res-card fu">
+    <div class="res-card reveal">
       <div class="res-num">1k<small>+</small></div>
       <div class="res-info">
         <h4>Tickets analisados toda semana</h4>
@@ -452,109 +1103,110 @@ footer{position:relative;z-index:1;text-align:center;padding:24px;border-top:1px
   </div>
 </section>
 
-<section>
-  <div class="stag">Tecnologias</div>
-  <div class="stitle">Ferramentas e plataformas</div>
-  <p class="ssub">Experiência prática em ambiente de produção com as principais plataformas do mercado de segurança.</p>
-  <div class="tools fu">
-    <span class="tool">Splunk</span><span class="tool">IBM QRadar</span>
-    <span class="tool">Trend Micro XDR</span><span class="tool">CrowdStrike EDR</span>
-    <span class="tool">VirusTotal</span><span class="tool">SOCRadar</span>
-    <span class="tool">GLPI</span><span class="tool">ServiceNow</span>
-    <span class="tool">Jira</span><span class="tool">Freshservice</span>
-    <span class="tool">Zabbix</span><span class="tool">Grafana</span>
-    <span class="tool">FortiGate</span><span class="tool">VPN</span>
-    <span class="tool">Firewalls</span><span class="tool">TRIO</span>
-    <span class="tool">HTML / CSS / JS</span><span class="tool">Excel Avançado</span>
+<!-- FERRAMENTAS -->
+<section style="padding-top:0;background:rgba(20,25,41,0.3)">
+  <div class="section-tag">Stack</div>
+  <div class="section-title" style="margin-bottom:40px">Ferramentas e <em>plataformas</em></div>
+  <div class="tools reveal">
+    <span class="tool">Splunk</span><span class="tool">IBM QRadar</span><span class="tool">Trend Micro XDR</span>
+    <span class="tool">CrowdStrike EDR</span><span class="tool">VirusTotal</span><span class="tool">SOCRadar</span>
+    <span class="tool">GLPI</span><span class="tool">ServiceNow</span><span class="tool">Jira</span>
+    <span class="tool">Freshservice</span><span class="tool">Zabbix</span><span class="tool">Grafana</span>
+    <span class="tool">FortiGate</span><span class="tool">Firewalls</span><span class="tool">VPN</span>
+    <span class="tool">HTML / CSS / JS</span><span class="tool">Excel Avançado</span><span class="tool">TRIO</span>
   </div>
 </section>
 
-<section style="padding-top:0">
-  <div class="stag">Qualificações</div>
-  <div class="stitle">Certificações</div>
-  <div class="certs fu">
-    <div class="cert"><div class="cert-name">ISO/IEC 27001</div><div class="cert-org">Segurança da Informação</div></div>
-    <div class="cert"><div class="cert-name">ITIL</div><div class="cert-org">IT Infrastructure Library</div></div>
-    <div class="cert"><div class="cert-name">COBIT</div><div class="cert-org">Governança de TI</div></div>
-    <div class="cert"><div class="cert-name">LGPD</div><div class="cert-org">Proteção de Dados</div></div>
-    <div class="cert"><div class="cert-name">Fortinet NSE / FCA</div><div class="cert-org">FortiGate 7.4 Operator</div></div>
-    <div class="cert"><div class="cert-name">Cisco Networking</div><div class="cert-org">Networking Fundamentals</div></div>
-    <div class="cert"><div class="cert-name">Scrum e PMBOK</div><div class="cert-org">Gerenciamento de Projetos</div></div>
-    <div class="cert"><div class="cert-name">Cloud Fundamentals</div><div class="cert-org">Administration e Architect</div></div>
+<!-- CERTIFICAÇÕES -->
+<section style="padding-top:64px;padding-bottom:120px;background:rgba(20,25,41,0.3)">
+  <div class="section-tag">Qualificações</div>
+  <div class="section-title" style="margin-bottom:40px">Certificações</div>
+  <div class="certs-grid reveal">
+    <div class="cert-card"><div class="cert-name">ISO/IEC 27001</div><div class="cert-org">Segurança da Informação</div></div>
+    <div class="cert-card"><div class="cert-name">ITIL</div><div class="cert-org">IT Infrastructure Library</div></div>
+    <div class="cert-card"><div class="cert-name">COBIT</div><div class="cert-org">Governança de TI</div></div>
+    <div class="cert-card"><div class="cert-name">LGPD</div><div class="cert-org">Proteção de Dados</div></div>
+    <div class="cert-card"><div class="cert-name">Fortinet NSE / FCA</div><div class="cert-org">FortiGate 7.4 Operator</div></div>
+    <div class="cert-card"><div class="cert-name">Cisco Networking</div><div class="cert-org">Networking Fundamentals</div></div>
+    <div class="cert-card"><div class="cert-name">Scrum e PMBOK</div><div class="cert-org">Gerenciamento de Projetos</div></div>
+    <div class="cert-card"><div class="cert-name">Cloud Fundamentals</div><div class="cert-org">Administration e Architect</div></div>
   </div>
 </section>
 
+<!-- CONTATO -->
 <section id="contato" class="contact-section">
-  <div class="stag">Vamos conversar</div>
-  <div class="stitle">Entre em contato</div>
-  <p class="ssub" style="margin:0 auto;text-align:center">Aberta a oportunidades em Governança de SI, GRC e Indicadores Estratégicos. Presencial em São Paulo ou remoto.</p>
+  <div class="section-tag" style="justify-content:center">Vamos conversar</div>
+  <div class="contact-title">Entre em<br><em>contato</em></div>
+  <p class="contact-sub">Aberta a oportunidades em Governança de SI, GRC e Indicadores Estratégicos. Presencial em São Paulo ou remoto.</p>
   <div class="contact-cards">
     <a href="mailto:danielefreitas0742@gmail.com" class="contact-card">E-mail</a>
-    <a href="https://www.linkedin.com/in/daniele-pinheiro-214953233" target="_blank" class="contact-card">LinkedIn</a>
+    <a href="https://www.linkedin.com/in/daniele-pinheiro" target="_blank" class="contact-card">LinkedIn</a>
     <a href="https://wa.me/5511945174561" class="contact-card">WhatsApp</a>
   </div>
 </section>
 
-<footer>© 2026 Daniele Pinheiro de Freitas · Governança de Segurança da Informação</footer>
+<footer>© 2026 Daniele Pinheiro de Freitas &nbsp;·&nbsp; Governança de Segurança da Informação</footer>
 
+<!-- LIGHTBOX -->
 <div class="lightbox" id="lightbox" onclick="closeLightbox()">
   <button class="lightbox-close" onclick="closeLightbox()">✕</button>
   <img id="lightboxImg" src="" alt="">
 </div>
 
 <script>
-const screens=[
-  {src:'screen1.png',label:'Visão Geral: KPIs e alertas críticos'},
-  {src:'screen2.png',label:'Ranking de Grupos e Analistas'},
-  {src:'screen3.png',label:'Score de Saúde por Grupo'},
-  {src:'screen4.png',label:'Índice de Qualidade por Critério'},
-  {src:'screen5.png',label:'Evolução Semanal de Indicadores'},
-  {src:'screen6.png',label:'SLA por Cliente Externo'},
+const screens = [
+  { src: 'screen1.png', label: 'Visão Geral — KPIs e alertas críticos' },
+  { src: 'screen2.png', label: 'Ranking de Grupos e Analistas' },
+  { src: 'screen3.png', label: 'Score de Saúde por Grupo' },
+  { src: 'screen4.png', label: 'Índice de Qualidade por Critério' },
+  { src: 'screen5.png', label: 'Evolução Semanal de Indicadores' },
+  { src: 'screen6.png', label: 'SLA por Cliente Externo' },
 ];
-let currentIdx=0;
-function setMain(i,el){
-  currentIdx=i;
-  document.getElementById('mainImg').src=screens[i].src;
-  document.getElementById('mainLabel').textContent=screens[i].label;
-  document.querySelectorAll('.gallery-thumb').forEach(t=>t.classList.remove('active'));
+let currentIdx = 0;
+
+function setMain(i, el) {
+  currentIdx = i;
+  document.getElementById('mainImg').src = screens[i].src;
+  document.getElementById('mainLabel').textContent = screens[i].label;
+  document.querySelectorAll('.gallery-thumb').forEach(t => t.classList.remove('active'));
   el.classList.add('active');
 }
-function openLightbox(i){
-  document.getElementById('lightboxImg').src=screens[i].src;
+function openLightbox(i) {
+  document.getElementById('lightboxImg').src = screens[i].src;
   document.getElementById('lightbox').classList.add('open');
 }
-function closeLightbox(){document.getElementById('lightbox').classList.remove('open');}
-document.addEventListener('keydown',e=>{if(e.key==='Escape')closeLightbox();});
+function closeLightbox() { document.getElementById('lightbox').classList.remove('open'); }
+document.addEventListener('keydown', e => { if (e.key === 'Escape') closeLightbox(); });
 
-const obs=new IntersectionObserver(e=>{
-  e.forEach(el=>{if(el.isIntersecting)el.target.classList.add('on');});
-},{threshold:0.1});
-document.querySelectorAll('.fu').forEach(el=>obs.observe(el));
+// Scroll reveal
+const obs = new IntersectionObserver(entries => {
+  entries.forEach(el => { if (el.isIntersecting) el.target.classList.add('on'); });
+}, { threshold: 0.1 });
+document.querySelectorAll('.reveal').forEach(el => obs.observe(el));
 
-function animCount(el,target,suffix){
-  let v=0;
-  const step=target/(1600/16);
-  const t=setInterval(()=>{
-    v+=step;
-    if(v>=target){v=target;clearInterval(t);}
-    el.textContent=(target>=1000?'1.000':Math.floor(v))+suffix;
-  },16);
+// Counter animation
+function animCount(el, target, suffix) {
+  let v = 0;
+  const step = target / (1400 / 16);
+  const t = setInterval(() => {
+    v += step;
+    if (v >= target) { v = target; clearInterval(t); }
+    el.textContent = (target >= 1000 ? '1.000' : Math.floor(v)) + suffix;
+  }, 16);
 }
-const stripObs=new IntersectionObserver(e=>{
-  e.forEach(el=>{
-    if(el.isIntersecting){
-      document.querySelectorAll('.strip-num[data-target]').forEach(n=>{
-        const tg=parseInt(n.dataset.target);
-        const sf=n.dataset.suffix||'';
-        animCount(n,tg,sf);
+const stripObs = new IntersectionObserver(entries => {
+  entries.forEach(el => {
+    if (el.isIntersecting) {
+      document.querySelectorAll('.strip-num[data-target]').forEach(n => {
+        animCount(n, parseInt(n.dataset.target), n.dataset.suffix || '');
         delete n.dataset.target;
       });
       stripObs.disconnect();
     }
   });
-},{threshold:0.3});
-const strip=document.querySelector('.strip');
-if(strip)stripObs.observe(strip);
+}, { threshold: 0.3 });
+const strip = document.querySelector('.strip');
+if (strip) stripObs.observe(strip);
 </script>
 </body>
 </html>
