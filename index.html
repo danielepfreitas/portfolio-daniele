@@ -801,8 +801,8 @@ footer{
 <!-- METRICS -->
 <div class="metrics" id="metrics">
   <div class="metric">
-    <span class="metric-num" data-target="1" data-suffix="+">0</span>
-    <div class="metric-label">ano<br>governança</div>
+    <span class="metric-num" data-target="5" data-suffix="+">0</span>
+    <div class="metric-label">anos de<br>carreira</div>
   </div>
   <div class="metric">
     <span class="metric-num c-lilac" data-target="30" data-suffix="+">0</span>
@@ -817,8 +817,8 @@ footer{
     <div class="metric-label">módulos<br>desenvolvidos</div>
   </div>
   <div class="metric">
-    <span class="metric-num c-green">0</span>
-    <div class="metric-label">sla<br>quebrado</div>
+    <span class="metric-num c-green" data-target="100" data-suffix="%">0</span>
+    <div class="metric-label">sla<br>cumprido</div>
   </div>
 </div>
 
@@ -1178,7 +1178,7 @@ const counterObs=new IntersectionObserver(entries=>{
     const el=e.target;
     const target=parseInt(el.dataset.target);
     const suffix=el.dataset.suffix||'';
-    if(isNaN(target)||target===0){el.textContent='0'+suffix;counterObs.unobserve(el);return;}
+    if(isNaN(target)){el.textContent=el.textContent;counterObs.unobserve(el);return;}
     let start=null;
     const dur=1400;
     const step=ts=>{
