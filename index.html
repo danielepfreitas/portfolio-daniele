@@ -248,7 +248,7 @@ nav{
 /* METRICS BAR */
 .metrics{
   display:grid;
-  grid-template-columns:repeat(5,1fr);
+  grid-template-columns:repeat(6,1fr);
   border-bottom:1px solid var(--bg3);
   position:relative;
   z-index:1;
@@ -739,7 +739,7 @@ footer{
   .nav-links{display:none;}
   .hero{grid-template-columns:1fr;padding:40px 20px;gap:32px;min-height:auto;}
   .metrics{grid-template-columns:repeat(3,1fr);}
-  .metrics .metric:nth-child(4),.metrics .metric:nth-child(5){border-top:1px solid var(--bg3);}
+  .metrics .metric:nth-child(4),.metrics .metric:nth-child(5),.metrics .metric:nth-child(6){border-top:1px solid var(--bg3);}
   section{padding:40px 20px;}
   .about-grid,.proj-wrap{grid-template-columns:1fr;}
   .skills-grid,.certs-grid,.results-grid{grid-template-columns:repeat(2,1fr);}
@@ -826,6 +826,10 @@ footer{
   <div class="metric">
     <span class="metric-num c-green" data-target="100" data-suffix="%">0</span>
     <div class="metric-label">sla<br>cumprido</div>
+  </div>
+  <div class="metric">
+    <span class="metric-num" style="color:var(--pink);font-size:1.8rem;">R$1,5M+</span>
+    <div class="metric-label">multas e glosas<br>evitadas</div>
   </div>
 </div>
 
